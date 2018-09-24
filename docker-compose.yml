@@ -1,0 +1,52 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.15.3-alpine
+    ports:
+    - "80:80"
+    volumes:
+    - .:/var/www/html
+    - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    links:
+    - php-fpm
+    restart: always
+  php-fpm:
+    build: "./docker/php-fpm/"
+    volumes:
+    - .:/var/www/html
+    - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/zphp.ini
+    - ./docker/php-fpm/etc/supervisord.conf:/etc/supervisord.conf
+    restart: always
+    depends_on:
+    - mysql
+    - redis
+    #- elasticsearch
+  composer:
+    image: composer
+    volumes:
+    - .:/var/www/html
+    working_dir: /var/www/html
+  mysql:
+    image: mysql:5.7
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+    volumes:
+    - ./docker/mysql/my.cnf:/etc/mysql/mysql.conf.d/z.cnf
+  redis:
+    image: redis:4-alpine3.8
+    ports:
+    - "6379:6379"
+  #elasticsearch:
+  #  image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    #  container_name: elasticsearch
+    #environment:
+    #- "xpack.security.enabled=false"
+    #- "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    #ports:
+    #- "9200:9200"
