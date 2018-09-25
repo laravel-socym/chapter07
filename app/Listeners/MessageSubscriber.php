@@ -4,20 +4,23 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\PublishProcessor;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class MessageSubscriber
  */
 class MessageSubscriber
 {
+    private $logger;
+
     /**
-     * Create the event listener.
+     * MessageSubscriber constructor.
      *
-     * @return void
+     * @param LoggerInterface $logger
      */
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
-        //
+        $this->logger = $logger;
     }
 
     /**
@@ -28,6 +31,7 @@ class MessageSubscriber
      */
     public function handle(PublishProcessor $event)
     {
-        var_dump($event->getInt());
+        // var_dump($event->getInt());
+        $this->logger->info(get_class($event), [$event->getInt()]);
     }
 }

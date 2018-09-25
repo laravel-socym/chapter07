@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
             $table->foreign('tag_id')->references('id')
                 ->on('tags')->onDelete('cascade')->onUpdate('cascade');
         });
+        $this->call([
+            UserSeeder::class
+        ]);
     }
 }

@@ -34,12 +34,20 @@
 $ docker-compose up -d
 $ docker-compose run composer install --prefer-dist --no-interaction && composer app-setup
 $ docker-compose exec php-fpm php artisan migrate
+$ docker-compose exec php-fpm php artisan db:seed
+$ curl -XPUT 'http://localhost:9200/reviews' -H 'Content-Type: application/json' -d @schema/mapping.json
 ```
 
 #### コンテナのキャッシュが残っている場合
 
 ```bash
 $ docker-compose build --no-cache
+```
+
+### Queue
+
+```bash
+$ docker-compose exec php-fpm php artisan queue:work
 ```
 
 ### MySQL確認方法

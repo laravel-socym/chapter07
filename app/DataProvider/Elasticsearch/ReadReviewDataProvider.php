@@ -27,7 +27,7 @@ class ReadReviewDataProvider
     public function findAllByTag(array $tags): array
     {
         $result = $this->client->client()->search([
-            "index" => 'reviews_2018',
+            "index" => 'reviews',
             'type'  => 'reviews',
             "body"  => [
                 "query" => [

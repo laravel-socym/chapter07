@@ -3,15 +3,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Review;
 
-use App\DataProvider\Database\RetrieveReviewDataProvider;
 use App\DataProvider\Elasticsearch\ReadReviewDataProvider;
-use App\DataProvider\Elasticsearch\AddReviewIndexDataProvider;
-use App\Entity\Tag;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 /**
  * Class IndexAction
+ *
+ * readをelasticearchを利用する例
  */
 class IndexAction extends Controller
 {
@@ -29,10 +27,10 @@ class IndexAction extends Controller
         $this->provider = $provider;
     }
 
-    public function __invoke(string $id)
+    public function __invoke()
     {
-        $review = $this->provider->findAllByTag(['Laravel', 'Event']);
-        dd($review);
-        return response()->json([]);
+        $review = $this->provider->findAllByTag(['Symfony']);
+
+        return response()->json($review);
     }
 }

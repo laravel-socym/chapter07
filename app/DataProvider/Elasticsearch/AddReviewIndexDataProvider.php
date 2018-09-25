@@ -39,7 +39,7 @@ class AddReviewIndexDataProvider implements AddReviewIndexProviderInterface
         int $userId
     ): array {
         $params = [
-            'index' => 'reviews_2018',
+            'index' => 'reviews',
             'type'  => 'reviews',
             'id'    => sprintf('review:%s', $id),
             'body'  => [
@@ -53,7 +53,6 @@ class AddReviewIndexDataProvider implements AddReviewIndexProviderInterface
                 'created_at' => $epoch
             ]
         ];
-
         return $this->client->client()
             ->index($params);
     }
