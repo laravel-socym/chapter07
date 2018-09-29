@@ -6,6 +6,7 @@ namespace App\DataProvider\Elasticsearch;
 use App\DataProvider\AddReviewIndexProviderInterface;
 use App\Foundation\ElasticsearchClient;
 
+use function sprintf;
 use function array_map;
 
 class AddReviewIndexDataProvider implements AddReviewIndexProviderInterface
