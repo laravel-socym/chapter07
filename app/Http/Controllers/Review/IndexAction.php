@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Review;
 use App\DataProvider\Elasticsearch\ReadReviewDataProvider;
 use App\Http\Controllers\Controller;
 
+use function response;
+
 /**
  * Class IndexAction
  *

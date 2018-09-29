@@ -5,12 +5,28 @@ namespace App\DataProvider\Database;
 
 use App\Events\ReviewRegistered;
 use App\DataProvider\RegisterReviewProviderInterface;
+use Illuminate\Database\DatabaseManager;
+
+use function event;
 
 /**
  * Class RegisterReviewDataProvider
  */
 class RegisterReviewDataProvider implements RegisterReviewProviderInterface
 {
+    /** @var DatabaseManager */
+    protected $databaseManager;
+
+    /**
+     * RegisterReviewDataProvider constructor.
+     *
+     * @param DatabaseManager $databaseManager
+     */
+    public function __construct(DatabaseManager $databaseManager)
+    {
+        $this->databaseManager = $databaseManager;
+    }
+
     /**
      * @param string $title
      * @param string $content
@@ -19,6 +35,7 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
      * @param array  $tags
      *
      * @return int
+     * @throws \Throwable
      */
     public function registerReview(
         string $title,
@@ -27,7 +44,8 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
         string $createdAt,
         array $tags = []
     ): int {
-        return \DB::transaction(function () use ($title, $content, $userId, $tags, $createdAt) {
+        // \DBファサードを用いても構いません
+        return $this->databaseManager->transaction(function () use ($title, $content, $userId, $tags, $createdAt) {
             $reviewId = $this->createReview($title, $content, $userId, $createdAt);
             foreach ($tags as $tag) {
                 $this->createReviewTag(
@@ -80,9 +98,9 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
     ): int {
         $result = Review::firstOrCreate([
             'user_id' => $userId,
-            'title' => $title,
+            'title'   => $title,
         ], [
-            'content' => $content,
+            'content'    => $content,
             'created_at' => $createdAt,
         ]);
         return $result->id;
@@ -91,7 +109,7 @@ class RegisterReviewDataProvider implements RegisterReviewProviderInterface
     protected function createReviewTag(int $reviewId, int $tagId, string $createdAt)
     {
         ReviewTag::firstOrCreate([
-            'tag_id' => $tagId,
+            'tag_id'    => $tagId,
             'review_id' => $reviewId,
         ], [
             'created_at' => $createdAt,

@@ -6,6 +6,8 @@ namespace App\Listeners;
 use App\Events\PublishProcessor;
 use Psr\Log\LoggerInterface;
 
+use function get_class;
+
 /**
  * Class MessageSubscriber
  */

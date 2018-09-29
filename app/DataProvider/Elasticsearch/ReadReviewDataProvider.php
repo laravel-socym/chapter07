@@ -5,6 +5,9 @@ namespace App\DataProvider\Elasticsearch;
 
 use App\Foundation\ElasticsearchClient;
 
+use function array_map;
+use function count;
+
 class ReadReviewDataProvider
 {
     private $client;

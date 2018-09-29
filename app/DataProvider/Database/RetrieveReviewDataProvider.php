@@ -5,6 +5,8 @@ namespace App\DataProvider\Database;
 
 use App\Entity\Tag;
 
+use function intval;
+
 /**
  * Class RetrieveReviewDataProvider
  */

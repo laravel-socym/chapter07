@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Jobs\PdfGenerator;
 
+use function dispatch;
+
 /**
  * Class PdfGeneratorController
  */

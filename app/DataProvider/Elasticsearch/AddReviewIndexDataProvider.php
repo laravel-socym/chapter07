@@ -6,6 +6,8 @@ namespace App\DataProvider\Elasticsearch;
 use App\DataProvider\AddReviewIndexProviderInterface;
 use App\Foundation\ElasticsearchClient;
 
+use function array_map;
+
 class AddReviewIndexDataProvider implements AddReviewIndexProviderInterface
 {
     private $client;
